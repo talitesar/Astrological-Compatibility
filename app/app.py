@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 import sqlite3
 import pandas as pd
 from flask_sqlalchemy import SQLAlchemy
+import requests
 
 #create engine
 engine = create_engine("sqlite:///Resources/Astrological_data.sqlite?check_same_thread=False") 
@@ -21,11 +22,12 @@ def home():
      return render_template('index.html')
 
 #create data route with SQL data
+
 @app.route("/data")
 def data():
      cursor.execute('SELECT * FROM Astrological_Compatibility')
      data = (cursor.fetchall())
-     data = pd.DataFrame(data, columns = ["Zod_sign_man", "Zod_sign_woman", "zod_combo", "Compatibility_rate", "Compatibility"])
+     data = pd.DataFrame(data, columns = ["Zodiac_combination", "Compatibility_rate"])
      data = data.to_json(orient = "records")
      return data
 
